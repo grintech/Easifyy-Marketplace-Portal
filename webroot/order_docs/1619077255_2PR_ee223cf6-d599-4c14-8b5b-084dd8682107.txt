@@ -1,0 +1,11 @@
+R/sir
+1- Today i have worked on portfolio option including title,discription and an attachment - 3 hours
+2- As instructed by Rajesh sir i have changed some menu links like onclick of settings we want to open profil options like add/edit profile,add portfolio and more
+   as all the menus are formed dynamically , i am explore the code  by debugging  and database structure myself , it consumes most of my time 
+   still i have to understand more things
+   2 hours
+3- I have reviewd the code of search contracts tab by debugging line by line and understood the flow of code and display pattern -3 hours
+   some functions are missing from database but tarun sir resolved that problem
+
+Self exploring consumes my more time,still needs exploring of code and table structure of database as i will move on other options .
+ Thanks

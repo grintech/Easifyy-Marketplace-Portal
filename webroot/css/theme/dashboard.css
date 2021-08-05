@@ -1,0 +1,173 @@
+/*-------------------------------------------------
+  Dashboard common file for Analytics & eCommmerce
+--------------------------------------------------*/
+
+#revenue-chart span i.material-icons {
+    position: relative;
+    top: 5px;
+}
+
+#revenue-chart .yearly-revenue-chart {
+    position: relative;
+}
+
+#revenue-chart .yearly-revenue-chart canvas {
+    width: 100% !important;
+    height: 350px !important;
+}
+
+#revenue-chart .yearly-revenue-chart canvas.firstShadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#weekly-earning h3.header {
+    margin: 2.4rem 0 2.3rem 0;
+}
+
+#weekly-earning canvas {
+    width: 100% !important;
+    height: 110 !important;
+    margin: 10px 0 10px -18px;
+}
+
+#weekly-earning .center-align p {
+    margin-bottom: 1rem;
+}
+
+#login-page h5 {
+    font-size: 1.64rem;
+    font-weight: 400;
+    font-family: 'Muli', sans-serif;
+}
+
+
+/* .navbar-nav {
+    position: absolute;
+    right: 10px;
+} */
+
+
+/* new css start */
+
+.dashboard-logo img {
+    width: 100%;
+    max-width: 200px !important;
+}
+
+.dashboard-logo {
+    padding-left: 0 !important;
+}
+
+.dashboard-nav {
+    height: unset !important;
+    padding: 0.3rem 1rem !important;
+    /* position: fixed; */
+    top: 0;
+    z-index: 9999999;
+}
+
+@media(max-width:991px) {
+    .dashboard-nav .navbar-nav {
+        text-align: center;
+        flex-direction: column-reverse;
+    }
+}
+
+#sales-chart .blank-dp span {
+    color: #fff;
+    font-weight: 700;
+    margin-top: 0 !important;
+    font-size: 18px !important;
+    padding: 0 !important;
+}
+.d-sidebar-profile-box .blank-dp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-list-arrows {
+    font-size: 15px;
+    height: 20px;
+    width: 20px;
+    line-height: 18px;
+    text-align: center;
+    color: #8e43e7;
+    border-radius: 50%;
+    margin: 0 0 0 -35px;
+    float: left;
+    border: 1px solid;
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+}
+.list-checkmarks {
+    margin-left: 36px;
+}
+ul.list-checkmarks li {
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+}
+ul.list-checkmarks li:last-child {
+    margin-bottom: 0px;
+}
+ul.list-checkmarks li i {
+    margin-right: 10px;
+}
+.badge.badge-secondary {
+    background-color: #fff;
+}
+input#status {
+    color: #fff;
+    font-weight: 600;
+    background-color: #8e43e7;
+    text-align: center;
+}
+.align-item-flex-end {
+    align-items: baseline;
+}
+.p-color{
+    color: #8e43e7;
+}
+a.p-color:hover{
+    color: #8e43e7;
+}
+.footer-copyright a {
+    color: #8e43e7;
+}
+ul.breadcrumbs-trail a {
+    color: #8e43e7;
+}
+.small-bbutton button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #f9fdff;
+    background-color: #8e43e7;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+.small-bbutton {
+    position: absolute;
+    z-index: 999999;
+    top:8px;
+    right: -45px;
+}
+.sidenav-main.small .brand-sidebar img {
+    width: 100%;
+}
+.sidenav-main.small {
+    width: 6%;
+}
+@media(max-width:992px){
+    .small-bbutton{
+        display: none;
+    }
+}
+/* new css end */

@@ -1,0 +1,249 @@
+.step-counting-wrapper{
+  font-size: 27px;
+  border: 2px solid ;
+  width: 54px;
+  height: 54px;
+z-index: 2;
+}
+.steps-content {
+  margin-left: -27px;
+  padding-left: 40px;
+  padding-bottom: 40px;
+  border-left: 2px solid;
+
+}
+.form-fields .row{
+		margin: 0;
+}
+.logo-container {
+    background: rgba(8,84,94, 1);
+}
+.application-from .row{
+	justify-content: center;
+}
+.application-from .row{
+	margin: 0;
+}
+.item_ls select{
+    width: 160px;
+}
+.steps-inner-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+.steps-count {
+  font-size: 20px;
+  border-radius: 50%;
+  width: 54px;
+  height: 54px;
+  max-width: none;
+  max-height: none;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.steps_item {
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    font-weight: 500;
+    color: #999;
+}
+
+.steps_item.col {
+  padding: 0 10px;
+}
+.steps_item.active {
+    color: #28a745 !important;
+    font-weight: bold;
+    border-bottom: 1px solid;
+}
+.form-fields .row{
+	margin: 0;
+}
+.la_nav {
+    width: 100%;
+}
+.steps_item.active {
+    color: #28a745 !important;
+    font-weight: bold;
+    border-bottom: 1px solid;
+}
+input[type="text"][required] + label[placeholder]::before, select[type="text"][required] + label[placeholder]::before {
+    content: attr(placeholder);
+    display: inline-block;
+    margin: 18px 20px;
+    padding: 0 2px;
+    color: #898989;
+    white-space: nowrap;
+    transition: 0.3s ease-in-out;
+    background-image: linear-gradient(to bottom, #fff, #fff);
+    background-size: 100% 5px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+input[type="text"][required] + label[placeholder], select[type="text"][required] + label[placeholder] {
+    display: block;
+    pointer-events: none;
+    line-height: 1.25em;
+    margin-top: calc(-3em - 6px - 2px);
+    margin-bottom: calc((3em - 1em*2) + 6px);
+}
+input[type="text"][required]:focus + label[placeholder]::before, select[type="text"][required]:focus + label[placeholder]::before, input[type="text"][required]:valid + label[placeholder]::before, select[type="text"][required]:valid + label[placeholder]::before {
+    transition-duration: 0.2s;
+    transform: translate(0, -1.5em) scale(0.9, 0.9);
+}
+.form-fields input{
+width: 100%;
+background:
+#fff;
+border: 1px solid
+#999;
+border-radius: 3px;
+color:
+#000 !important;
+padding: 14px !important;
+margin-top: 0px !important;
+}
+.action-buttons i{
+  font-size: 17px;
+  margin-right: 20px;
+}
+ .nextbtn i{
+  font-size: 17px;
+  margin-left: 20px;
+}
+.steps_item.col {
+	width: 100%;
+	max-width: 25% !important;
+}
+.list_wraper ul {
+    padding: 0;
+    margin: 0;
+}	
+.list_wraper ul li {
+    list-style: none;
+    line-height: 28px;
+}
+.list_wraper {
+    position: absolute;
+    background: #ffffff;
+    top: 70px;
+    z-index: 1;
+    border: 1px solid #dddddd;
+}
+.suggesstion-products {
+    background: #ffffff;
+    width: 100%;
+    position: absolute;
+}
+
+/* Naresh */
+#dealer-list li.item_dealer, ul#salesman-list li.item_salesman {
+    padding: 5px 10px;
+    border-bottom: 1px solid #eee;
+    min-width: 350px;
+}
+
+#dealer-list li.item_dealer:hover, #salesman-list li.item_salesman:hover {
+    background-color: #eee;
+    cursor: pointer;
+}
+
+thead tr th{
+    font-weight: 500;
+    padding:0px !important;
+    text-transform: capitalize;
+    text-align: center;
+    padding: 5px;
+}
+.product_row td.list_item, thead tr th {
+    padding: 0px;
+    margin: 0px;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+.product_row td.list_item input, .product_row td.list_item select {
+    padding: 2px !important;
+    border: 0px;
+    border-radius: 0px;
+}
+/* Naresh code end */
+/* Hide all steps by default: */
+.tab {
+  display: block;
+}
+.home-section {
+  background: rgba(8,84,94, 1);
+  height: 100vh;
+}
+.btn.btn-default.add-morebtn {
+  float: right;
+}
+.signature-pad--body canvas {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    height: 200px;
+}
+
+@media all and (max-width: 767px){
+  	.steps_item {
+  	font-size: 11px;
+  }
+  .nextbtn, .backbtn {
+  	font-size: 14px;
+  	padding: 10px;
+  }
+  .nextbtn i {
+  	font-size: 12px;
+  	margin-left: 0;
+  }
+  .action-buttons i {
+  	font-size: 12px;
+  	margin-right: 6px;
+  }
+  .head1 {
+  	font-size: 30px;
+  }
+}
+
+
+/**Credit Application CSS**/
+h2._heading {
+    font-size: 30px;
+    margin: 25px 0px;    text-decoration: underline;
+    text-transform: uppercase;
+}
+.col-sm-6.col-12.mt-3.button_right, button#customer_submit {
+    float: right;
+}
+.statement_main_pos {
+    position: relative;
+}
+.statement_list_pos {
+    width: 95%;
+}
+button.btn.btn-info.statement_add_pos {
+    position: absolute;
+    right: 0;
+    top: 93px;
+}
+button.btn.btn-primary.btn_right {
+    float: right;
+    margin-right: 54px;
+}
+
+.pd_10 {
+    margin-right: 13px;
+}
+
+h6.mr_10 {
+    margin: 0;
+    font-size: 18px;
+}
+h6.mr1_10 {
+    margin: 0px;
+    padding-top: 25px;
+}

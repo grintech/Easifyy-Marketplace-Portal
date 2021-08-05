@@ -1,0 +1,95 @@
+/*================================================================================
+	Item Name: Materialize - Material Design Admin Template
+	Version: 5.0
+	Author: PIXINVENT
+	Author URL: https://themeforest.net/user/pixinvent/portfolio
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN CSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+row .col.s12 {
+    width: auto;
+}
+.card .input {
+    width: 100%;
+    /*max-width: auto;*/
+    display: inline-block;
+    padding: 0 10px;
+}
+
+/*button[type="submit"] {
+    background: #2c323f;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 15px;
+    color: #fff;
+}*/
+
+#breadcrumbs-wrapper {
+    width: 100%;
+}
+.input.date .select-wrapper {
+    display: inline-block;
+    padding: 0 10px;
+    width: 100%;
+    max-width: 29%;
+}
+
+.input.datetime .select-wrapper {
+    display: inline-block;
+    padding: 0 10px;
+    width: 100%;
+    max-width: 17%;
+}
+
+
+.main-categories {
+    width: 100%;
+    overflow: hidden;
+}
+
+ul.category-list {
+    width: 100%;
+    float: left;
+    padding: 0px;
+}
+li.category-list-item {
+    float: left;
+    list-style: none;
+    margin: 0px 10px 10px 0px;
+    width: 150px;
+    height: 180px;
+    text-align: center;
+    word-break: break-word;
+    box-shadow: 1px 1px 2px #ccc;
+    border: 3px solid #eee;
+    background: #fff;
+    cursor: pointer;
+}
+.category-list-item a {
+    color: #000;
+}
+li.category-list-item figure img {
+    width: 100px;
+    height: 100px;
+}
+
+li.category-list-item:hover {box-shadow: 4px 3px 4px #999;}
+
+li.category-list-item figure {
+    position: relative;
+    height: 100%;
+    font-weight: 300;
+    font-family: "Roboto";
+}
+
+li.category-list-item figure figcaption {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+}
+.navbar-brand {
+    padding-left: 20%;
+}

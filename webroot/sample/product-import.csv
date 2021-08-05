@@ -1,0 +1,5 @@
+Sno,Product type,parent,title,Description,price,Sale price,weight,Product unit,stock,Bar code,Item code,Hsn code,Cgst,igst,sgst,Is taxable,Is tax inclusive,Status,images,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+1,simple,,Import Simple test product,Simple product,100,90,750,gms,100,Barcode,itemcode,hsncode,5,6,7,yes,Yes,Publish,"http://dev.rndexperts.in/lojistaIT/wp-content/uploads/2020/08/bitmap-1.png,http://dev.rndexperts.in/lojistaIT/wp-content/uploads/2020/08/group.png",,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2,variable,,Import Variable test product,Variable product,100,90,500,gms,100,Barcode,itemcode,hsncode,5,6,7,no,no,Publish,"http://dev.rndexperts.in/lojistaIT/wp-content/uploads/2020/08/bitmap-1.png,http://dev.rndexperts.in/lojistaIT/wp-content/uploads/2020/08/group.png",,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3,Variation,2,Import variation test product,Variation product child 1,100,90,250,Kg,100,Barcode,itemcode,hsncode,5,6,7,no,no,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4,Variation,2,Import variation test product,Variation product child 2,100,90,1,gms,100,Barcode,itemcode,hsncode,5,6,7,no,no,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

@@ -1,0 +1,198 @@
+.product-meta-item {
+    display: flex;
+    flex-direction: row;
+    /*border: 1px solid #eee;*/
+    /*padding: 5px;*/
+    margin-bottom: 10px;
+    /*box-shadow: 1px 1px 3px #999;*/
+    position: relative;
+}
+.product-meta-item .rnd-panelbody-item[data-order="1"] {
+	order: 1;
+}
+
+.product-meta-item .rnd-panelbody-item[data-order="2"] {
+	order: 2;
+}
+
+.product-meta-item .rnd-panelbody-item[data-order="3"] {
+	order: 3;
+}
+.product-meta-item .rnd-panelbody-item[data-order="4"] {
+	order: 4;
+}
+.product-meta-item .rnd-panelbody-item[data-order="5"] {
+    order: 5;
+}
+.product-meta-item .rnd-panelbody-item[data-order="6"] {
+    order: 6;
+}
+.product-meta-item .rnd-panelbody-item[data-order="7"] {
+    order: 7;
+}
+.product-meta-item .rnd-panelbody-item[data-order="8"] {
+    order: 8;
+}
+
+.parent-checkbox[data-order="1"] {
+    order: 1;
+}
+.parent-checkbox[data-order="2"] {
+    order: 2;
+}
+.parent-checkbox[data-order="3"] {
+    order: 3;
+}
+
+.parent-checkbox[data-order="4"] {
+    order: 4;
+}
+
+.thumbnail {
+    position: relative;
+}
+
+.thumbnail .pro-tag {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 10px;
+    padding: 3px;
+    color: #fff;
+}
+
+.pro-featured {
+    background: #FF5722;
+    color: #fff;
+}
+
+.pro-gallery {
+    background: #9C27B0;
+}
+
+
+
+._prod-category{
+    height: 350px;
+    overflow: auto;
+}
+
+._prod-brand{
+    height: 150px;
+    overflow: auto;
+}
+/*._prod-brand {
+    height: 150px;
+    overflow: auto;
+    padding-top: 63px;
+}*/
+
+.product-variation-panel {
+    float: left;
+    width: 33%;
+    margin-right: 1%;
+}
+
+._variable-product-info {
+    position: relative;
+    float: left;
+}
+
+.add-variation-button {
+    position: absolute;
+    bottom: -65px;
+}
+
+.round-symbole-button {
+    border-radius: 25px;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    padding: 0px;
+    font-size: 30px;
+}
+
+a.small-round-symbole-button {
+    position: absolute;
+    top: -7px;
+    right: -8px;
+    padding: 0px;
+    color: #fff;
+    font-weight: bold;
+    background: #E91E63;
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+    text-align: center;
+    line-height: 25px;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+}
+a.small-round-symbole-button:hover{
+    text-decoration: none;
+}
+
+.two-col-panel .rnd-panelbody-item {
+    width: 50%;
+    margin-bottom:5px;
+    float: left;
+}
+.two-col-panel .rnd-panelbody-item label {
+    float: left;
+    width: 30%;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 34px;
+}
+.two-col-panel .rnd-panelbody-item span {
+    float: left;
+    width: 68%;
+    font-weight: 500;
+}
+
+.search-form {
+    float: right;
+    width: 250px;
+    /*margin: 21px 0px;*/
+}
+
+.search-form input {
+    float: left;
+    width: 75%;
+    height: 30px;
+}
+
+.search-form button {
+    height: 30px;
+    padding: 0px;
+    width: 25%;
+    border-radius: 0px !important;
+}
+
+.message.success {
+    background-color: green;
+    color: #fff;
+    padding: 10px;
+    margin-top: 10px;
+    font-weight: 700;
+}
+.message.error {
+    background-color: green;
+    color: #fff;
+    padding: 10px;
+    margin-top: 10px;
+    font-weight: 700;
+}
+.rnd-cat-image-container {
+    max-height: 150px;
+    overflow: hidden;
+    height: 150px;
+}
+.material-icons {
+    cursor: pointer;
+}
+.show-hide{
+    cursor: pointer;
+}

@@ -1,0 +1,860 @@
+$(document).ready(function(){
+	
+	var product ={};
+	var dealer ={};
+	var salesman = {};
+	var selected_product={};
+	
+	function grandTotal(){
+		var total = 0;
+		$('.total').each(function(){
+			if($(this).val() != "" )
+				total += parseFloat( $(this).val() );
+		});
+		return total;
+	}
+	function grandFranklin(){
+		var total = 0;
+		
+		$('.franklin').each(function(){
+			var parent = $(this).parents('.product_row');
+		    var ischecked= parent.find('.franklin-checkbox').is(':checked');
+			if(ischecked){
+				console.log('ischecked',ischecked);
+				if($(this).val() != "" ){
+					total += parseFloat( $(this).val() );
+				}
+			}
+		});
+		return total;
+	}
+
+	function grandPoints(){
+		var total = 0;
+		$('.promo').each(function(){
+			if($(this).val() != "" )
+				total += parseFloat( $(this).val() );
+		});
+		return total;
+	}
+	
+	function totalDiscount(){
+		var total = 0;
+		$('.discount').each(function(){
+			if($(this).val() != "" )
+				total += parseFloat( $(this).val() );
+		});
+		return total;
+	}
+	
+	$(document).on('change','.product_name',function(e){
+		e.preventDefault();
+		var current = $(this);
+		console.log( current.val() );
+		if( current.val() == "" ) return;
+		
+		var parent = $(this).parents('.product_row');
+		$.ajax({
+			url: item_name_ajax_url,
+			headers: {
+		        'X-CSRF-Token': csrfCustomerToken
+		    },
+		    type: 'post',
+		    dataType: 'json',
+		    data: {
+		    	product_name: current.val()
+		    },
+		    success: function( response ){
+		    	if ( response.length > 0 ) {
+		    		parent.find('.item_name').children().remove();
+
+		    		//add empty
+		    		var option = $('<option />')
+						.val( "" )
+						.html( 'Select Item' )
+						.appendTo( parent.find('.item_name') );
+
+		    		for (var i = 0; i < response.length ; i++) {
+						var option = $('<option />')
+						.val( response[i]['item_name'] )
+						.attr('data-item-id', response[i]['item_name'] )
+						.html( response[i]['item_name'] )
+						.appendTo( parent.find('.item_name') );
+
+					}			
+					parent.find('.item_type').val('');  
+		            parent.find('.product_id').val('');
+					parent.find('.quantity').prop('readonly', true);
+					parent.find('.total').val('');
+					parent.find('.price').val('');
+					parent.find('.desc').val('');
+					parent.find('.discount').val('');
+					parent.find('.quantity').val('');
+					$('#msg').text('');	
+		    	}
+		    	
+		    },
+		    beforeSend: function(){
+		    	console.log('item_name_ajax_url')
+		    },
+		    error: function(a,b,c){
+		    	console.log('Error: '+c);
+		    }
+			    
+		});
+		
+	});
+	
+	$(document).on('change','.item_name',function(e){
+		e.preventDefault();
+		var current = $(this);
+		var parent = current.parents('.product_row');
+		console.log(typeof parent, parent);
+		$.ajax({
+			url: item_number_ajax_url,
+			headers: {
+		        'X-CSRF-Token': csrfCustomerToken
+		    },
+		    type: 'post',
+		    dataType: 'json',
+		    data: {
+		    	product_name: parent.find('.product_name').val(),
+		    	item_name: current.val(),
+		    },
+		    success: function( response ){
+		    	if ( response.length > 0 ) {
+		    		parent.find('.item_number').html('');
+
+		    		//add empty
+		    		var option = $('<option />')
+						.val( "" )
+						.html( 'Select Item Number' )
+						.appendTo( parent.find('.item_number') );
+
+		    		for (var i = 0; i < response.length ; i++) {
+						var option = $('<option />')
+						.val( response[i]['item_number'] )
+						.attr('data-item-id', response[i]['id'] )
+						.html( response[i]['item_number'] )
+						.appendTo( parent.find('.item_number') );
+
+					}			
+					parent.find('.item_type').val('');  
+		            parent.find('.product_id').val('');
+					parent.find('.quantity').prop('readonly', true);
+					parent.find('.total').val('');
+					parent.find('.price').val('');
+					parent.find('.desc').val('');
+					parent.find('.discount').val('');
+					parent.find('.quantity').val('');
+					$('#msg').text('');	
+		    	}
+		    	
+		    },
+		    beforeSend: function(){
+		    	console.log('item_number_ajax_url')
+		    },
+		    error: function(a,b,c){
+		    	console.log('Error: '+c);
+		    }
+			    
+		});
+		
+	});
+	
+	$(document).on('change','.item_number',function(e){
+		e.preventDefault();
+		var current = $(this);
+		var parent = current.parents('.product_row');
+
+		$.ajax({
+			url: product_ajax_url,
+			headers: {
+		        'X-CSRF-Token': csrfCustomerToken
+		    },
+		    type: 'post',
+		    dataType: 'json',
+		    data: {
+		    	product_id: current.find(':selected').attr('data-item-id'),
+		    },
+		    success: function( response ){
+		    	if ( response.length > 0 ) {
+		    		product = response[0]; 
+		    		parent.find('.product_json').val( JSON.stringify(product) );
+					var desc = product.product_name +' '+ product.item_name+' '+ product.item_number+' '+ product.color_name ;
+					parent.find('.item_type').val(product.item_type);
+		            parent.find('.product_id').val(product.id);
+					parent.find('.quantity').prop('readonly', false);
+					parent.find('.price').val(product.per_item);
+					parent.find('.franklin').val(product.single_franklin);
+					parent.find('.franklin-checkbox').prop('checked', true);
+					parent.find('.franklin-checkbox').trigger('change');
+					parent.find('.total').val('');
+					parent.find('.discount').val('');
+					parent.find('.quantity').val(1);
+					parent.attr('data-filled','filled');
+					parent.find('.desc').val(desc);
+					if((product.product_name ==='Underlay-Edm') || (product.product_name ==='Underlay-Depot') ||(product.product_name ==='Underlay-Cgy') ){
+					parent.find('.cash-checkbox').show();	
+					}else{
+						parent.find('.cash-checkbox').hide();
+					}
+
+					// parent.find(".quantity").trigger("change");
+					getGrandTotal( parent );
+					$('#msg').text('');
+		    	}
+		    	
+		    },
+		    beforeSend: function(){
+		    	console.log('product_ajax_url')
+		    },
+		    error: function(a,b,c){
+		    	console.log('Error: '+c);
+		    }
+		});
+	});
+	
+	$(document).on('click ','button.tr_clone_add',function(e){
+		e.preventDefault();
+            var $tr    = $('#myTabledata > tr:last').closest('.product_row');
+            var $clone = $tr.clone();
+            $clone.find(':text').val('');		
+			$clone.find('.item_type').val('');
+            $clone.find('.product_id').val('');
+			$clone.find('.price').val('');
+			$clone.find('.discount').val('');
+			$clone.find('.quantity').prop('readonly', true);
+			$clone.find('.franklin-checkbox').prop('checked', false);
+			$clone.find('.total').val('');
+			$clone.find('.quantity').val('');
+            $tr.after($clone);
+            console.log('herrere',$tr);
+        });
+	
+	$(document).on('change',".franklin-checkbox",function(e) {
+		//e.preventDefault();
+		var parent = $(this).parents('.product_row');
+		var ischecked= parent.find('.franklin-checkbox').is(':checked');
+		if(!ischecked){
+		    //$(this).val('off');
+			parent.find('.franklin').hide();
+			parent.find('.franklin-checkbox').val(2);
+			parent.find('.franklin-checkbox-input').val(0);
+			//parent.find('.franklin-checkbox').prop('checked',false);
+			console.log('unchecked',parent.find('.franklin-checkbox').val());
+			parent.find('.quantity').trigger('change');
+		}else{
+			parent.find('.franklin').show();
+			parent.find('.franklin-checkbox').val(1);
+			parent.find('.franklin-checkbox-input').val(1);
+			parent.find('.quantity').trigger('change');
+			//parent.find('.franklin-checkbox').prop('checked',true);
+		}
+	}); 
+	
+	$(document).on('keyup change','.quantity',function(e){
+		console.log('quantity');
+		getGrandTotal( $(this).parents('.product_row') );
+	});
+	
+	
+	function getGrandTotal( parent ){
+		
+		// var parent = current.parents('.product_row');
+		//var parent = $(this).parents('.product_row');
+		console.log('product_json',parent.find('.product_json').val());
+		if(parent.find('.product_json').val() !=''){
+			
+			var product = JSON.parse( parent.find('.product_json').val() );
+			var quantity = parent.find('.quantity').val();
+			var price   =   parent.find('.price').val();
+			var discount   =   parent.find('.discount').val();
+			//var franklin = parent.find('.franklin').val(); 
+			console.log('product parsed',product);
+			if( quantity !=='' && price !=='' ){
+				if((product.product_name ==='Underlay-Edm') || (product.product_name ==='Underlay-Depot') ||(product.product_name ==='Underlay-Cgy') ){
+					var ischecked= parent.find('.cash-checkbox').is(':checked');
+					if( ischecked ){
+						var total_cost = parseFloat(quantity) * parseFloat(product.single_item)* parseFloat( product.per_item );
+						var franklin = parseFloat(quantity)* parseFloat(product.single_franklin);
+						if(discount !==''){
+							var total_cost = total_cost - discount;
+						}
+						parent.find('.price').val(product.single_item);
+					}else{				
+						parent.find('.price').val(product.bulk_item);
+						var total_cost = parseFloat(quantity)* parseFloat(product.bulk_item)* parseFloat( product.per_item );
+						var franklin = parseFloat(quantity)* parseFloat(product.bulk_franklin);
+						if(discount !==''){
+							var total_cost = total_cost - discount;
+						}
+					}
+				}else if(product.product_name ==='Adhesive'){
+						if( parseInt(quantity) < parseInt( product.bulk_count ) ){
+							var total_cost = parseFloat(quantity) * parseFloat(product.single_item);
+							var franklin = parseFloat(quantity)* parseFloat(product.single_franklin);
+							if(discount !==''){
+								var total_cost = total_cost - discount;
+							}
+							parent.find('.price').val(product.single_item);
+						}else{
+							
+							parent.find('.price').val(product.bulk_item);
+							var total_cost = parseFloat(quantity)* parseFloat(product.bulk_item);
+							var franklin = parseFloat(quantity)* parseFloat(product.bulk_franklin);
+							if(discount !==''){
+								var total_cost = total_cost - discount;
+							}
+						}
+				}else if(parseInt(quantity) < parseInt(product.bulk_count)){
+					var total_cost = parseFloat( quantity ) * parseFloat( product.single_item ) * parseFloat( product.per_item );
+					var franklin = parseFloat( quantity ) * parseFloat( product.single_franklin );
+					if( discount !=='' ){
+						total_cost = total_cost - discount;
+					}
+					parent.find('.price').val(product.single_item);
+				} else {
+					var total_cost = parseFloat(quantity)* parseFloat(product.bulk_item) * parseFloat(product.per_item );
+					var franklin = parseFloat(quantity)* parseFloat(product.bulk_franklin);
+					if(discount !==''){
+						var total_cost = total_cost - discount;
+					}
+					parent.find('.price').val(product.bulk_item);
+				}
+				
+				parent.find('.total').val( total_cost.toFixed(2) );
+				parent.find('.franklin').val( franklin.toFixed(2) );
+				console.log(' total_cost ',total_cost.toFixed(2));
+				console.log(' franklin ',franklin.toFixed(2));
+				var total = grandTotal();
+				var total_franklin = grandFranklin();
+				var total_points = grandPoints();
+				$('#order-grand-total').html( total.toFixed(2) );
+				$('#order-franklin-total').html( total_franklin.toFixed(2) );
+				$('#order-points-total').html( total_points.toFixed(2) );
+				console.log(' total ',total);
+				console.log(' total_franklin ',total_franklin);
+				console.log(' total_points ',total_points);
+			}
+		}
+	}
+	
+	$(document).on('keyup change','.promo',function(e){
+		e.preventDefault();
+	  var parent = $(this).parents('.product_row');
+		parent.find('.quantity').trigger('change');
+	});
+	$(document).on('keyup change','.discount',function(e){
+		e.preventDefault();
+		var parent = $(this).parents('.product_row');
+		parent.find('.quantity').trigger('change');
+	});
+	
+	$(document).on('change','.cash-checkbox',function(e){
+		console.log('event triggered');
+		var parent = $(this).parents('.product_row');
+		if(parent.find('.product_json').val() !=''){
+			var product = JSON.parse( parent.find('.product_json').val() );
+			if((product.product_name ==='Underlay-Edm') || (product.product_name ==='Underlay-Depot') ||(product.product_name ==='Underlay-Cgy') ){
+				getGrandTotal( parent );
+			}
+		}
+	});
+
+
+	
+	$(document).on('click','.ls_product_row',function(e){
+		e.preventDefault();
+		console.log('target',e.target);
+		$.post(
+                "get_product_data.php",
+                {item_number: $(this).attr('data-item_number')},
+        function (response) {
+			 selected_product = response;
+            //console.log(typeof response, response,selected_product);
+			 $(".suggesstion-products").html('');
+			 
+        },
+        'json');
+	});
+	
+	
+	
+	$(document).on('keyup ','#customer_name',function(e){
+		var name = $(this).val();
+		console.log('name',name);
+		if( name.length > 1){
+			$.ajax({
+				url: customer_ajax_url,
+				headers: {
+			        'X-CSRF-Token': csrfCustomerToken
+			    },
+			    type: 'post',
+			    dataType: 'json',
+			    data: {
+			    	name: $(this).val()
+			    },
+			    success: function(response){
+			    	$('#suggesstion-dealers').html('');
+			    	window.myres = response;
+			    	var _ul = $('<ul />')
+			    	.attr('id', 'dealer-list');
+			    	if ( response.length > 0 ) {
+			    		for (var i = 0; i <= response.length ; i++ ) {
+			    			try{
+			    				var _li = $('<li />')
+					    		.addClass('item_dealer')
+					    		.attr('data-customer_id', response[i].id )
+					    		.html( response[i].name )
+					    		.appendTo(_ul);
+			    			} catch(e){
+
+			    			}
+			    			
+			    		}
+			    		_ul.appendTo('#suggesstion-dealers');
+
+			    	}
+			  		$('#suggesstion-dealers').show();
+
+
+			    }
+			});
+			
+		}else{
+			 //$('#customer_name').val('');
+			 $('#suggesstion-dealers').hide();
+			 $('#address').val('');
+			 $('#city').val('');
+			 $('#province').val('');
+			 $('#customer_id').val('');
+			 $('#postal_code').val('');
+			 $('#sin').val('');
+			 $('#sin_off_file').show(); 
+			 $('#sin_on_file').hide();
+
+			 
+		}
+	});
+	
+	
+	$(document).on('click ','.item_dealer',function(e){
+		  e.preventDefault();
+
+		var customer_id = $(this).attr('data-customer_id');
+		//console.log('product_id',product_id);
+		if(customer_id){
+			$.ajax({
+				url: customer_data_ajax_url,
+				type: 'post',
+				dataType: 'json',
+				headers: {
+			        'X-CSRF-Token': csrfCustomerToken
+			    },
+				data: {
+					customer_id: customer_id
+				},
+				success: function( response ){
+					dealer = response[0];
+					$('#suggesstion-dealers').hide();
+					$('#customer_name').val(dealer.name);
+					$('#address').val(dealer.address);
+					$('#city').val(dealer.city);
+					$('#province').val(dealer.province);
+					if( dealer.sin != ''){
+					   $('#sin').val(dealer.sin);
+					   $('#sin_on_file').show();
+					   $('#sin_off_file').hide();
+					 }else{
+						$('#sin').val('');
+						$('#sin_off_file').show(); 
+						$('#sin_on_file').hide();
+						console.log('jere');
+					 }
+					$('#customer_id').val(dealer.id);
+					$('#postal_code').val(dealer.postal_code);
+					$('#msg').text('');
+				}
+			});
+		
+		}else{
+			$('#suggesstion-dealers').html('');
+		}
+	});
+	
+	$(document).on('keyup ','#salesman_name',function(e){
+		e.preventDefault();
+		var name = $(this).val();
+		console.log('name',name);
+		if( name.length > 1){
+			$.ajax({
+				url: salesmen_ajax_url,
+				headers: {
+			        'X-CSRF-Token': csrfCustomerToken
+			    },
+			    type: 'post',
+				dataType: 'json',
+				data: {
+					name: name
+				},
+				success: function(response){
+					$('#suggesstion-salesman').html('');
+			    	window.myres = response;
+			    	var _ul = $('<ul />')
+			    	.attr('id', 'salesman-list');
+			    	if ( response.length > 0 ) {
+			    		for (var i = 0; i <= response.length ; i++ ) {
+			    			try{
+			    				var _li = $('<li />')
+					    		.addClass('item_salesman')
+					    		.attr('data-salesman_id', response[i].id )
+					    		.html( response[i].name )
+					    		.appendTo(_ul);
+			    			} catch(e){
+
+			    			}
+			    			
+			    		}
+			    		_ul.appendTo('#suggesstion-salesman');
+
+			    	}
+			  		$('#suggesstion-salesman').show();
+				}
+			});
+			
+		}else{
+			 $('#suggesstion-salesman').hide();
+			 $('#saleman_id').val('');
+			 //$('#salesman_name').val();
+			 $('#sales_rep').val('');
+			 $('#rep_email').val('');
+			 $('#sd_rep').val('');
+		}
+	});
+	
+	
+	$(document).on('keyup ','#search_product',function(e){
+		e.preventDefault();
+		var name = $(this).val();
+		console.log('name',name);
+			$.post(
+                "get_product_data.php",
+                { search_product: $(this).val() },
+        function (response) {
+            console.log(typeof response, response);
+             $('#suggesstion-products').html(response);
+        },
+        'html');
+		
+	});
+	
+	$(document).on('click ','.item_salesman',function(e){
+		e.preventDefault();
+		var name = $(this).text();
+		console.log('name',name);
+		if( name.length > 1){
+			var salesman_id = $(this).attr('data-salesman_id');
+			$.ajax({
+				url: salesmen_data_ajax_url,
+				headers: {
+			        'X-CSRF-Token': csrfCustomerToken
+			    },
+			    type: 'post',
+				dataType: 'json',
+				data: {
+					salesman_id: salesman_id
+				},
+				success: function(response){
+					console.log(response.length);
+					if ( response.length > 0 ) {
+			    		
+						salesman = response[0];
+		             	$('#suggesstion-salesman').html('');
+					 	$('#suggesstion-salesman').hide();
+					 	$('#salesman_id').val(salesman.id);
+					 	$('#salesman_name').val(salesman.name);
+					 	$('#rep_email').val(salesman.email);
+					 	console.log(salesman.email);
+			    	}
+			  		
+				}
+			});
+		}else{
+			$('#suggesstion-dealers').html('');
+			 
+		}
+		
+	});
+	
+	
+	var signature_image = "";
+	
+	if ( $('.order_id').length > 0 ) {
+
+		var order_id = $('.order_id').val();
+		if ( order_id != "" && parseInt(order_id) > 0) {
+			signature_image = BASE_URL+'webroot/img/Signs/primco-sign-'+order_id+'.jpg';
+		}
+	}
+	document.addEventListener('DOMContentLoaded',function(){
+	  /*Your chartist initialization code here*/
+	  console.log('DOMContentLoaded');
+	});
+
+	var wrapper = document.getElementById("signature-pad");
+	if(wrapper){
+		var clearButton = wrapper.querySelector("[data-action=clear]");
+		window.orientation = resizeCanvas;
+		var canvas = wrapper.querySelector("canvas");
+		var signaturePad = new SignaturePad(canvas, {
+		  // It's Necessary to use an opaque color when saving image as JPEG;
+		  // this option can be omitted if only saving as PNG or SVG
+		  backgroundColor: 'rgb(255, 255, 255)',
+		  minWidth: 1
+		});
+		console.log(signature_image);
+	     console.log(BASE_URL);
+		if ( signature_image != "" ) {
+			signaturePad.fromDataURL( signature_image );	
+		}
+		//window.onresize = resizeCanvas;
+		//resizeCanvas();
+		clearButton.addEventListener("click", function (event) {
+		  signaturePad.clear();
+		});
+		
+		var windowWidth = $(window).width();
+		$(window).resize(function(){
+		if ($(window).width() != windowWidth) {
+		window.onresize = resizeCanvas;
+		resizeCanvas();
+		}
+		});
+		window.orientation = resizeCanvas;
+		resizeCanvas();
+	
+	}
+	
+	
+
+	
+
+	// Adjust canvas coordinate space taking into account pixel ratio,
+	// to make it look crisp on mobile devices.
+	// This also causes canvas to be cleared.
+	function resizeCanvas() {
+	  // When zoomed out to less than 100%, for some very strange reason,
+	  // some browsers report devicePixelRatio as less than 1
+	  // and only part of the canvas is cleared then.
+	  var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+
+	  // This part causes the canvas to be cleared
+	  canvas.width = canvas.offsetWidth * ratio;
+	  canvas.height = canvas.offsetHeight * ratio;
+	  canvas.getContext("2d").scale(ratio, ratio);
+
+	  // This library does not listen for canvas changes, so after the canvas is automatically
+	  // cleared by the browser, SignaturePad#isEmpty might still return false, even though the
+	  // canvas looks empty, because the internal data of this library wasn't cleared. To make sure
+	  // that the state of this library is consistent with visual state of the canvas, you
+	  // have to clear it manually.
+	 signaturePad.clear();
+	}
+	
+	// On mobile devices it might make more sense to listen to orientation change,
+	// rather than window resize events.
+	function download(dataURL, filename) {
+	  if (navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1) {
+		window.open(dataURL);
+	  } else {
+		var blob = dataURLToBlob(dataURL);
+		var url = window.URL.createObjectURL(blob);
+
+		var a = document.createElement("a");
+		a.style = "display: none";
+		a.href = url;
+		a.download = filename;
+
+		document.body.appendChild(a);
+		a.click();
+
+		window.URL.revokeObjectURL(url);
+	  }
+	}
+
+	// One could simply use Canvas#toBlob method instead, but it's just to show
+	// that it can be done using result of SignaturePad#toDataURL.
+	function dataURLToBlob(dataURL) {
+	  // Code taken from https://github.com/ebidel/filer.js
+	  var parts = dataURL.split(';base64,');
+	  var contentType = parts[0].split(":")[1];
+	  var raw = window.atob(parts[1]);
+	  var rawLength = raw.length;
+	  var uInt8Array = new Uint8Array(rawLength);
+
+	  for (var i = 0; i < rawLength; ++i) {
+		uInt8Array[i] = raw.charCodeAt(i);
+	  }
+
+	  return new Blob([uInt8Array], { type: contentType });
+	}
+
+	
+
+	/* undoButton.addEventListener("click", function (event) {
+	  var data = signaturePad.toData();
+
+	  if (data) {
+		data.pop(); // remove the last dot or line
+		signaturePad.fromData(data);
+	  }
+	}); */
+/* 
+	changeColorButton.addEventListener("click", function (event) {
+	  var r = Math.round(Math.random() * 255);
+	  var g = Math.round(Math.random() * 255);
+	  var b = Math.round(Math.random() * 255);
+	  var color = "rgb(" + r + "," + g + "," + b +")";
+
+	  signaturePad.penColor = color;
+	});
+ */
+	/*savePNGButton.addEventListener("click", function (event) {
+	  if (signaturePad.isEmpty()) {
+		alert("Please provide a signature first.");
+	  } else {
+		var dataURL = signaturePad.toDataURL();
+        var file = dataURLtoBlob(dataURL);
+        var filename = 'order.jpg';
+		var formData = new FormData();
+        formData.append('files',file,filename);
+        formData.append('action',"test");
+      
+		$.ajax({
+			url: sign_ajax_url,
+			headers: {
+		        'X-CSRF-Token': csrfCustomerToken
+		    },
+		    type: 'post',
+		    async:true,
+		    crossDomain:true,
+		    mimeType:'multipart/form-data',
+		    contentType: false,
+		    processData: false,
+			 data : formData,
+           // contentType: 'application/json; charset=utf-8',
+		    success: function( response ){
+		    	if ( response.length > 0 ) {
+		    		
+
+		    			
+		    	}
+		    	
+		    },
+		    beforeSend: function(){
+		    	console.log('sign_ajax_url')
+		    },
+		    error: function(a,b,c){
+		    	console.log('Error: '+c);
+		    }
+			    
+		});
+	  }
+	});*/
+
+
+	$(document).on('click','#submit-form',function(e){
+		// e.preventDefault();
+		console.log('here');
+		var order_id = $('.order_id').val();
+		console.log('order_id',order_id);
+		
+		if (0) {
+			alert("Please provide a signature first.");
+		} else {
+			var dataURL = signaturePad.toDataURL();
+	        var file = dataURLtoBlob(dataURL);
+	        var filename = 'order.jpg';
+			var formData = new FormData();
+	        formData.append('files',file,filename);
+	        formData.append('order_id',order_id);
+	      
+			$.ajax({
+				url: sign_ajax_url,
+				headers: {
+			        'X-CSRF-Token': csrfCustomerToken
+			    },
+			    type: 'post',
+			    async:true,
+			    crossDomain:true,
+			    mimeType:'multipart/form-data',
+			    contentType: false,
+			    processData: false,
+				 data : formData,
+	          
+			    success: function( response ){
+			    	$('#regForm').submit();
+			    },
+			    beforeSend: function(){
+			    	console.log('sign_ajax_url')
+			    },
+			    error: function(a,b,c){
+			    	console.log('Error: '+c);
+			    }
+				    
+			});
+		}
+		return false;
+		
+	}); 
+	
+	function dataURLtoBlob(dataURL){
+        var binary = atob(dataURL.split(',')[1])
+        var array = []
+        var i = 0
+        while( i < binary.length){
+          array.push (binary.charCodeAt(i));
+          i++
+        }
+       return new Blob([ new Uint8Array(array) ],{ type: 'image/png'})
+      };
+	
+	function dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type:mime});
+}
+	
+	$(document).on('change',".is_installed",function(e) {
+		//e.preventDefault();
+		var parent = $(this).parents('.product_row');
+		var ischecked= parent.find('.is_installed').is(':checked');
+			console.log('checked value',parent.find(".is_installed").val());
+		var checked_value =parent.find(".is_installed").val();
+		if(checked_value ==='no'){
+		   	console.log('not checked');
+			parent.find('.installed_area').prop('readonly', true);
+			parent.find('.installed_date').prop('readonly', true);
+			parent.find('.installed_area').val('');
+			parent.find('.installed_date').val('');
+			parent.find('.installed_date').datepicker( "destroy" );
+		}else{
+		    console.log('checked');
+			parent.find('.installed_area').prop('readonly', false);
+			parent.find('.installed_date').prop('readonly', false);
+			parent.find('.installed_date').datepicker({
+              				dateFormat: "yy-mm-dd"
+                  		 });
+		}
+	}); 
+
+	
+
+	
+	
+	
+});

@@ -1,0 +1,19 @@
+# Uncomment the following to prevent the httpoxy vulnerability
+# See: https://httpoxy.org/
+#<IfModule mod_headers.c>
+#    RequestHeader unset Proxy
+#</IfModule>
+
+
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteRule    ^(\.well-known/.*)$ $1 [L]
+    RewriteRule    ^$    webroot/    [L]
+    RewriteRule    (.*) webroot/$1    [L]
+    RewriteCond %{HTTP_HOST} ^www.easifyy.com [NC]
+	RewriteRule ^(.*)$ http://easifyy.com/$1 [L,R=301]
+	RewriteEngine On
+	RewriteCond %{HTTP_HOST} ^[^.]+\.[^.]+$
+	RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [L,R=301]
+</IfModule>
+
